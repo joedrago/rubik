@@ -97,8 +97,6 @@ public class RubikCube
                 int rawAction = actions_.get(0);
                 actions_.remove(0);
 
-                Log.e("RubikCube", "Performing action: " + rawAction);
-
                 int rot = rawAction / 2;
                 boolean clockwise = (rawAction % 2) > 0;
 
