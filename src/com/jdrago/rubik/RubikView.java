@@ -2,6 +2,7 @@ package com.jdrago.rubik;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
 
 public class RubikView extends GLSurfaceView
 {
@@ -72,5 +73,11 @@ public class RubikView extends GLSurfaceView
 
         renderer_ = new RubikRenderer(context, cube_);
         setRenderer(renderer_);
+    }
+
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        renderer_.click((int)event.getX(0), (int)event.getY(0));
+        return true;
     }
 }

@@ -15,6 +15,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -57,6 +59,32 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 5 * FLOAT_SIZE_BYTES;
     private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
     private static final int TRIANGLE_VERTICES_DATA_UV_OFFSET = 3;
+
+    class Button
+    {
+        private static final int ACTION_ROT = 1;
+
+        public int resourceID_;
+        public int textureID_;
+
+        public int anim_;
+
+        public int cx_;
+        public int cy_;
+
+        public float x_;
+        public float y_;
+        public float width_;
+        public float height_;
+
+        public int action_;
+        public int dir_;
+        public boolean clockwise_;
+    }
+    private List<Button> buttons_ = new ArrayList<Button>();
+    private float buttonDim_;
+    private static final int BUTTON_GRID_SIZE = 5;
+    private static final int BUTTON_ANIM_SPEED = 10;
 
     private final float[][] faceColors_ =
             {
@@ -225,6 +253,24 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         spinZ_ = 0;
     }
 
+    public void addButton(int resourceID, int x, int y, int action, int dir, boolean clockwise)
+    {
+        Button b = new Button();
+        b.resourceID_ = resourceID;
+        b.textureID_ = loadPNG(b.resourceID_);
+        b.cx_ = x;
+        b.cy_ = y;
+        b.x_ = x * buttonDim_;
+        b.y_ = height_ - (buttonDim_ * (y+1));
+        b.width_ = buttonDim_;
+        b.height_ = buttonDim_;
+        b.anim_ = 0;
+        b.action_ = action;
+        b.dir_ = dir;
+        b.clockwise_ = clockwise;
+        buttons_.add(b);
+    }
+
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
     {
         // Ignore the passed-in GL10 interface, and use the GLES20
@@ -268,6 +314,14 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     {
         width_ = width;
         height_ = height;
+        buttonDim_ = (float) width_ / BUTTON_GRID_SIZE;
+
+        buttons_.clear();
+        addButton(R.raw.u, 2, 2, Button.ACTION_ROT, RubikCube.ROT_U, true);
+        addButton(R.raw.d, 2, 0, Button.ACTION_ROT, RubikCube.ROT_D, true);
+        addButton(R.raw.l, 1, 1, Button.ACTION_ROT, RubikCube.ROT_L, true);
+        addButton(R.raw.r, 3, 1, Button.ACTION_ROT, RubikCube.ROT_R, true);
+
 
         // Ignore the passed-in GL10 interface, and use the GLES20
         // class's static methods instead.
@@ -343,6 +397,40 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         checkGlError("glDrawElements");
     }
 
+    public void click(int x, int y)
+    {
+        y -= width_;
+        y = (height_ - width_) - y;
+
+        if(y < 0)
+        {
+            return;
+        }
+
+        x /= buttonDim_;
+        y /= buttonDim_;
+
+        for (int i = 0; i < buttons_.size(); ++i)
+        {
+            Button b = buttons_.get(i);
+
+            if((b.cx_ == x) && (b.cy_ == y))
+            {
+                if(b.anim_ == 0)
+                {
+                    Log.e(TAG, "clicked on " + x + ", " + y);
+                    b.anim_ = 255;
+
+                    if(b.action_ == Button.ACTION_ROT)
+                    {
+                        cube_.queue(b.dir_, b.clockwise_);
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
 
     public void onDrawFrame(GL10 glUnused)
     {
@@ -485,7 +573,6 @@ public class RubikRenderer implements GLSurfaceView.Renderer
                 0f, 0f, 0f,       // center
                 0f, 1.0f, 0.0f);  // up
 
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, cubieID_);
         buttonVerts_.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
         GLES20.glVertexAttribPointer(posHandle_, 3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, buttonVerts_);
         checkGlError("glVertexAttribPointer maPosition");
@@ -497,15 +584,34 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         GLES20.glEnableVertexAttribArray(texHandle_);
         checkGlError("glEnableVertexAttribArray texHandle");
 
-        Matrix.setIdentityM(modelMatrix_, 0);
-        Matrix.translateM(modelMatrix_, 0, 0,width_, 0);
-        Matrix.scaleM(modelMatrix_, 0, 100, 100, 0);
-        Matrix.multiplyMM(tempMatrix_, 0, viewMatrix_, 0, modelMatrix_, 0);
-        Matrix.multiplyMM(viewProjMatrix_, 0, projMatrix_, 0, tempMatrix_, 0);
-        GLES20.glUniformMatrix4fv(viewProjMatrixHandle_, 1, false, viewProjMatrix_, 0);
-        GLES20.glUniform4f(vertColorHandle_, 1.0f,1.0f,1.0f,1.0f);
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_INT, quadIndices_);
-        checkGlError("glDrawElements");
+        for (int i = 0; i < buttons_.size(); ++i)
+        {
+            Button b = buttons_.get(i);
+
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, b.textureID_);
+
+            float animVal = 1.0f - ((float)b.anim_ / 255.0f);
+
+            Matrix.setIdentityM(modelMatrix_, 0);
+            Matrix.translateM(modelMatrix_, 0, b.x_, b.y_, 0);
+            Matrix.scaleM(modelMatrix_, 0, b.width_, b.height_, 0);
+            Matrix.multiplyMM(tempMatrix_, 0, viewMatrix_, 0, modelMatrix_, 0);
+            Matrix.multiplyMM(viewProjMatrix_, 0, projMatrix_, 0, tempMatrix_, 0);
+            GLES20.glUniformMatrix4fv(viewProjMatrixHandle_, 1, false, viewProjMatrix_, 0);
+            GLES20.glUniform4f(vertColorHandle_, animVal, 1.0f, animVal, 1.0f);
+            GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_INT, quadIndices_);
+            checkGlError("glDrawElements");
+
+            if(b.anim_ > 0)
+            {
+                b.anim_ -= BUTTON_ANIM_SPEED;
+                if(b.anim_ < 0)
+                {
+                    b.anim_ = 0;
+                }
+            }
+        }
+
     }
 
     private void checkGlError(String op)
