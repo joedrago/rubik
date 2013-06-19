@@ -7,7 +7,7 @@ import java.util.List;
 
 public class RubikCube
 {
-    public static final int ROTATE_SPEED = 1;
+    public static final int ROTATE_SPEED = 5;
 
     public static final int FACE_U = 0;
     public static final int FACE_D = 1;
@@ -31,6 +31,21 @@ public class RubikCube
     public int rot_;
 
     private List<Integer> actions_ = new ArrayList<Integer>();
+    private int stripe_[] = new int[3];
+
+    private int SPIN_INDICES[][] =
+    {
+            {FACE_F,0,1,2, FACE_L,0,1,2, FACE_B,0,1,2, FACE_R,0,1,2}, // ROT_U
+            {FACE_F,6,7,8, FACE_R,6,7,8, FACE_B,6,7,8, FACE_L,6,7,8}, // ROT_D
+            {FACE_U,0,3,6, FACE_F,0,3,6, FACE_D,0,3,6, FACE_B,8,5,2}, // ROT_L
+            {FACE_U,8,5,2, FACE_B,0,3,6, FACE_D,8,5,2, FACE_F,8,5,2}, // ROT_R
+            {FACE_U,2,1,0, FACE_L,0,3,6, FACE_D,6,7,8, FACE_R,8,5,2}, // ROT_B
+            {FACE_U,6,7,8, FACE_R,0,3,6, FACE_D,2,1,0, FACE_L,8,5,2}, // ROT_F
+
+            {FACE_U,7,4,1, FACE_B,1,4,7, FACE_D,7,4,1, FACE_F,7,4,1}, // ROT_X
+            {FACE_F,3,4,5, FACE_L,3,4,5, FACE_B,3,4,5, FACE_R,3,4,5}, // ROT_Y
+            {FACE_U,3,4,5, FACE_R,1,4,7, FACE_D,5,4,3, FACE_L,7,4,1}  // ROT_Z
+    };
 
     RubikCube()
     {
@@ -43,7 +58,7 @@ public class RubikCube
         {
             for (int cubie = 0; cubie < 9; ++cubie)
             {
-                cubies_[face][cubie] = cubie;//face;
+                cubies_[face][cubie] = face;
             }
         }
 
@@ -92,6 +107,49 @@ public class RubikCube
         }
     }
 
+    void rotateFace(int face)
+    {
+        int t = cubies_[face][0];
+        cubies_[face][0] = cubies_[face][6];
+        cubies_[face][6] = cubies_[face][8];
+        cubies_[face][8] = cubies_[face][2];
+        cubies_[face][2] = t;
+
+        t = cubies_[face][1];
+        cubies_[face][1] = cubies_[face][3];
+        cubies_[face][3] = cubies_[face][7];
+        cubies_[face][7] = cubies_[face][5];
+        cubies_[face][5] = t;
+    }
+
+    void spin(int indices[])
+    {
+        int face0 = indices[0];
+        int face1 = indices[4];
+        int face2 = indices[8];
+        int face3 = indices[12];
+
+        stripe_[0] = cubies_[face3][indices[13]];
+        stripe_[1] = cubies_[face3][indices[14]];
+        stripe_[2] = cubies_[face3][indices[15]];
+
+        cubies_[face3][indices[13]] = cubies_[face2][indices[9]];
+        cubies_[face3][indices[14]] = cubies_[face2][indices[10]];
+        cubies_[face3][indices[15]] = cubies_[face2][indices[11]];
+
+        cubies_[face2][indices[9]] = cubies_[face1][indices[5]];
+        cubies_[face2][indices[10]] = cubies_[face1][indices[6]];
+        cubies_[face2][indices[11]] = cubies_[face1][indices[7]];
+
+        cubies_[face1][indices[5]] = cubies_[face0][indices[1]];
+        cubies_[face1][indices[6]] = cubies_[face0][indices[2]];
+        cubies_[face1][indices[7]] = cubies_[face0][indices[3]];
+
+        cubies_[face0][indices[1]] = stripe_[0];
+        cubies_[face0][indices[2]] = stripe_[1];
+        cubies_[face0][indices[3]] = stripe_[2];
+    }
+
     void move(int rot, boolean clockwise)
     {
         int numRotations = 1;
@@ -102,13 +160,11 @@ public class RubikCube
 
         for (int i = 0; i < numRotations; ++i)
         {
-            switch (rot)
+            if(rot < 6)
             {
-                case ROT_F:
-                {
-                }
-                break;
+                rotateFace(rot);
             }
+            spin(SPIN_INDICES[rot]);
         }
 
         rot_ = rot;

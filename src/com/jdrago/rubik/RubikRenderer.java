@@ -61,23 +61,23 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 
     private final float[][] faceColors_ =
             {
-//                    {1.0f, 0.0f, 0.0f},
-//                    {0.0f, 1.0f, 0.0f},
-//                    {0.0f, 0.0f, 1.0f},
-//                    {1.0f, 1.0f, 0.0f},
-//                    {1.0f, 0.5f, 0.0f},
-//                    {1.0f, 1.0f, 1.0f}
+                    {1.0f, 0.0f, 0.0f},
+                    {0.0f, 1.0f, 0.0f},
+                    {0.0f, 0.0f, 1.0f},
+                    {1.0f, 1.0f, 0.0f},
+                    {1.0f, 0.5f, 0.0f},
+                    {1.0f, 1.0f, 1.0f}
 
-                    {0.1f, 0.0f, 0.0f},
-                    {0.2f, 0.0f, 0.0f},
-                    {0.3f, 0.0f, 0.0f},
-                    {0.4f, 0.0f, 0.0f},
-                    {0.5f, 0.0f, 0.0f},
-                    {0.6f, 0.0f, 0.0f},
-                    {0.7f, 0.0f, 0.0f},
-                    {0.8f, 0.0f, 0.0f},
-                    {0.9f, 0.0f, 0.0f},
-                    {1.0f, 0.0f, 0.0f}
+//                    {0.1f, 0.0f, 0.0f},
+//                    {0.2f, 0.0f, 0.0f},
+//                    {0.3f, 0.0f, 0.0f},
+//                    {0.4f, 0.0f, 0.0f},
+//                    {0.5f, 0.0f, 0.0f},
+//                    {0.6f, 0.0f, 0.0f},
+//                    {0.7f, 0.0f, 0.0f},
+//                    {0.8f, 0.0f, 0.0f},
+//                    {0.9f, 0.0f, 0.0f},
+//                    {1.0f, 0.0f, 0.0f}
             };
 
     private final float[] whiteVertData_ = {
@@ -212,7 +212,7 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         quadIndices_.put(quadIndicesData_).position(0);
 
         spinX_ = 45;
-        spinY_ = -35;
+        spinY_ = 35;
         spinZ_ = 0;
     }
 
