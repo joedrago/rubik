@@ -14,10 +14,10 @@ public class RubikActivity extends Activity
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_rubik);
 
+        getActionBar().hide();
+
         view_ = new RubikView(getApplication());
         setContentView(view_);
-
-        getActionBar().show();
     }
 
     @Override

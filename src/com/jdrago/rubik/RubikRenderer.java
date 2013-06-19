@@ -50,8 +50,7 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     private float[] tempRotMatrix_ = new float[16];
     private float[] tempMatrix_ = new float[16];
 
-    private static final float CUBE_POS_Y = -2.0f;
-    private static final float CUBE_POS_Z = 8.0f;
+    private static final float CUBE_POS_Z = 5.0f;
 
     private static final int FLOAT_SIZE_BYTES = 4;
     private static final int INT_SIZE_BYTES = 4;
@@ -80,13 +79,21 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 //                    {1.0f, 0.0f, 0.0f}
             };
 
-    private final float[] whiteVertData_ = {
+    private final float[] cubieVertData_ = {
             // X, Y, Z, U, V
             -1.5f, -1.5f, -1.5f, 0, 0,
             -0.5f, -1.5f, -1.5f, 1, 0,
             -0.5f, -0.5f, -1.5f, 1, 1,
             -1.5f, -0.5f, -1.5f, 0, 1};
     private FloatBuffer cubieVerts_;
+
+    private final float[] buttonVertData_ = {
+            // X, Y, Z, U, V
+            0, 0, 0, 0, 0,
+            1, 0, 0, 1, 0,
+            1, 1, 0, 1, 1,
+            0, 1, 0, 0, 1};
+    private FloatBuffer buttonVerts_;
 
     private final int[] quadIndicesData_ = {0, 1, 2, 2, 3, 0};
     private IntBuffer quadIndices_;
@@ -206,13 +213,15 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     {
         context_ = context;
         cube_ = cube;
-        cubieVerts_ = ByteBuffer.allocateDirect(whiteVertData_.length * FLOAT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        cubieVerts_.put(whiteVertData_).position(0);
+        cubieVerts_ = ByteBuffer.allocateDirect(cubieVertData_.length * FLOAT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        cubieVerts_.put(cubieVertData_).position(0);
+        buttonVerts_ = ByteBuffer.allocateDirect(buttonVertData_.length * FLOAT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        buttonVerts_.put(buttonVertData_).position(0);
         quadIndices_ = ByteBuffer.allocateDirect(quadIndicesData_.length * INT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asIntBuffer();
         quadIndices_.put(quadIndicesData_).position(0);
 
         spinX_ = 45;
-        spinY_ = 35;
+        spinY_ = -45;
         spinZ_ = 0;
     }
 
@@ -253,10 +262,6 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         }
 
         cubieID_ = loadPNG(R.raw.cubie);
-        Matrix.setLookAtM(viewMatrix_, 0,
-                0, 0, 1,         // eye
-                0f, 0f, 5f,       // center
-                0f, 1.0f, 0.0f);  // up
     }
 
     public void onSurfaceChanged(GL10 glUnused, int width, int height)
@@ -290,24 +295,10 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         return height_;
     }
 
-    public void renderBegin(float r, float g, float b)
-    {
-        cube_.update();
-
-        GLES20.glClearColor(r, g, b, 1.0f);
-        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-        GLES20.glUseProgram(shaderProgram_);
-        checkGlError("glUseProgram");
-    }
-
-    public void renderEnd()
-    {
-    }
-
     public void drawCubieFace(int xrot, int yrot, int zrot, int face, int tx, int ty, int color)
     {
         Matrix.setIdentityM(modelMatrix_, 0);
-        Matrix.translateM(modelMatrix_, 0, 0, CUBE_POS_Y, CUBE_POS_Z);
+        Matrix.translateM(modelMatrix_, 0, 0, 0, CUBE_POS_Z);
 
         // Overall cube rotation
         Matrix.rotateM(modelMatrix_, 0, spinX_, 1.0f, 0.0f, 0.0f);
@@ -349,13 +340,18 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 
         GLES20.glUniform4f(vertColorHandle_, faceColors_[color][0], faceColors_[color][1], faceColors_[color][2], 1.0f);
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_INT, quadIndices_);
-        checkGlError("glDrawArrays");
+        checkGlError("glDrawElements");
     }
 
 
     public void onDrawFrame(GL10 glUnused)
     {
-        renderBegin(0.1f, 0.1f, 0.1f);
+        cube_.update();
+
+        GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+        GLES20.glUseProgram(shaderProgram_);
+        checkGlError("glUseProgram");
 
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
@@ -363,6 +359,14 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         GLES20.glDepthFunc(GLES20.GL_LEQUAL);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+
+        // Setup a perspective for the top square of portrait layout
+        GLES20.glViewport(0, height_ - width_, width_, width_);
+        Matrix.frustumM(projMatrix_, 0, -1, 1, 1, -1, 1, 20);
+        Matrix.setLookAtM(viewMatrix_, 0,
+                0, 0, 1,         // eye
+                0f, 0f, 5f,       // center
+                0f, 1.0f, 0.0f);  // up
 
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, cubieID_);
         cubieVerts_.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
@@ -463,7 +467,45 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_Z], RubikCube.FACE_R, 1, 2, cube_.cubies_[RubikCube.FACE_R][7]);
         drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_R, 2, 2, cube_.cubies_[RubikCube.FACE_R][6]);
 
-        renderEnd();
+        // Setup ortho for the UI
+        GLES20.glViewport(0, 0, width_, height_);
+        GLES20.glDisable(GLES20.GL_CULL_FACE);
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+
+        float left = 0.0f;
+        float right = width_;
+        float bottom = height_;
+        float top = 0.0f;
+        float near = 0.0f;
+        float far = 20.0f;
+        Matrix.setIdentityM(projMatrix_, 0);
+        Matrix.orthoM(projMatrix_, 0, left, right, bottom, top, near, far);
+        Matrix.setLookAtM(viewMatrix_, 0,
+                0, 0, 10,         // eye
+                0f, 0f, 0f,       // center
+                0f, 1.0f, 0.0f);  // up
+
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, cubieID_);
+        buttonVerts_.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
+        GLES20.glVertexAttribPointer(posHandle_, 3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, buttonVerts_);
+        checkGlError("glVertexAttribPointer maPosition");
+        buttonVerts_.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
+        GLES20.glEnableVertexAttribArray(posHandle_);
+        checkGlError("glEnableVertexAttribArray posHandle");
+        GLES20.glVertexAttribPointer(texHandle_, 2, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, buttonVerts_);
+        checkGlError("glVertexAttribPointer texHandle");
+        GLES20.glEnableVertexAttribArray(texHandle_);
+        checkGlError("glEnableVertexAttribArray texHandle");
+
+        Matrix.setIdentityM(modelMatrix_, 0);
+        Matrix.translateM(modelMatrix_, 0, 0,width_, 0);
+        Matrix.scaleM(modelMatrix_, 0, 100, 100, 0);
+        Matrix.multiplyMM(tempMatrix_, 0, viewMatrix_, 0, modelMatrix_, 0);
+        Matrix.multiplyMM(viewProjMatrix_, 0, projMatrix_, 0, tempMatrix_, 0);
+        GLES20.glUniformMatrix4fv(viewProjMatrixHandle_, 1, false, viewProjMatrix_, 0);
+        GLES20.glUniform4f(vertColorHandle_, 1.0f,1.0f,1.0f,1.0f);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_INT, quadIndices_);
+        checkGlError("glDrawElements");
     }
 
     private void checkGlError(String op)
