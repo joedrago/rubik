@@ -61,12 +61,12 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 
     private final float[][] faceColors_ =
             {
-                    {1.0f, 0.0f, 0.0f},
-                    {0.0f, 1.0f, 0.0f},
-                    {0.0f, 0.0f, 1.0f},
                     {1.0f, 1.0f, 0.0f},
+                    {1.0f, 1.0f, 1.0f},
+                    {0.0f, 0.0f, 1.0f},
+                    {0.0f, 1.0f, 0.0f},
                     {1.0f, 0.5f, 0.0f},
-                    {1.0f, 1.0f, 1.0f}
+                    {1.0f, 0.0f, 0.0f}
 
 //                    {0.1f, 0.0f, 0.0f},
 //                    {0.2f, 0.0f, 0.0f},
