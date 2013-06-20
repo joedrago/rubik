@@ -43,8 +43,6 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 
     private int cubieID_;
 
-    private int rots_[] = new int[9];
-
     private float[] viewProjMatrix_ = new float[16];
     private float[] projMatrix_ = new float[16];
     private float[] modelMatrix_ = new float[16];
@@ -52,7 +50,7 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     private float[] tempRotMatrix_ = new float[16];
     private float[] tempMatrix_ = new float[16];
 
-    private static final float CUBE_POS_Z = 5.0f;
+    private static final float CUBE_POS_Z = 6.0f;
 
     private static final int FLOAT_SIZE_BYTES = 4;
     private static final int INT_SIZE_BYTES = 4;
@@ -60,10 +58,13 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
     private static final int TRIANGLE_VERTICES_DATA_UV_OFFSET = 3;
 
+    private static final int TILT_TL = 0;
+    private static final int TILT_TR = 1;
+    private static final int TILT_BL = 2;
+    private static final int TILT_BR = 3;
+
     class Button
     {
-        private static final int ACTION_ROT = 1;
-
         public int resourceID_;
         public int textureID_;
 
@@ -83,8 +84,8 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     }
     private List<Button> buttons_ = new ArrayList<Button>();
     private float buttonDim_;
-    private static final int BUTTON_GRID_SIZE = 5;
-    private static final int BUTTON_ANIM_SPEED = 10;
+    private static final int BUTTON_GRID_SIZE = 7;
+    private static final int BUTTON_ANIM_SPEED = 20;
 
     private final float[][] faceColors_ =
             {
@@ -248,8 +249,8 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         quadIndices_ = ByteBuffer.allocateDirect(quadIndicesData_.length * INT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asIntBuffer();
         quadIndices_.put(quadIndicesData_).position(0);
 
-        spinX_ = 45;
-        spinY_ = -45;
+        spinX_ = 30;
+        spinY_ = -30;
         spinZ_ = 0;
     }
 
@@ -317,10 +318,40 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         buttonDim_ = (float) width_ / BUTTON_GRID_SIZE;
 
         buttons_.clear();
-        addButton(R.raw.u, 2, 2, Button.ACTION_ROT, RubikCube.ROT_U, true);
-        addButton(R.raw.d, 2, 0, Button.ACTION_ROT, RubikCube.ROT_D, true);
-        addButton(R.raw.l, 1, 1, Button.ACTION_ROT, RubikCube.ROT_L, true);
-        addButton(R.raw.r, 3, 1, Button.ACTION_ROT, RubikCube.ROT_R, true);
+
+        addButton(R.raw.rd, 1, 3, RubikCube.ACTION_ROT, RubikCube.ROT_F, false);
+        addButton(R.raw.u,  2, 3, RubikCube.ACTION_ROT, RubikCube.ROT_L, false);
+        addButton(R.raw.u,  3, 3, RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
+        addButton(R.raw.u,  4, 3, RubikCube.ACTION_ROT, RubikCube.ROT_R, true);
+        addButton(R.raw.ld, 5, 3, RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+
+        addButton(R.raw.d, 2, 0, RubikCube.ACTION_ROT, RubikCube.ROT_L, true);
+        addButton(R.raw.d, 3, 0, RubikCube.ACTION_ROT, RubikCube.ROT_X, false);
+        addButton(R.raw.d, 4, 0, RubikCube.ACTION_ROT, RubikCube.ROT_R, false);
+
+        addButton(R.raw.l, 1, 2, RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+        addButton(R.raw.l, 1, 1, RubikCube.ACTION_ROT, RubikCube.ROT_Y, true);
+        addButton(R.raw.l, 1, 0, RubikCube.ACTION_ROT, RubikCube.ROT_D, false);
+
+        addButton(R.raw.r, 5, 2, RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
+        addButton(R.raw.r, 5, 1, RubikCube.ACTION_ROT, RubikCube.ROT_Y, false);
+        addButton(R.raw.r, 5, 0, RubikCube.ACTION_ROT, RubikCube.ROT_D, true);
+
+        addButton(R.raw.u,  3, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_X, true);
+        addButton(R.raw.d,  3, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_X, false);
+        addButton(R.raw.l,  2, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, true);
+        addButton(R.raw.r,  4, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, false);
+        addButton(R.raw.rd, 2, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, true);
+        addButton(R.raw.ld, 4, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, false);
+
+        addButton(R.raw.ctl, 0, 3, RubikCube.ACTION_TILT, TILT_TL, false);
+        addButton(R.raw.ctr, 6, 3, RubikCube.ACTION_TILT, TILT_TR, false);
+        addButton(R.raw.cbl, 0, 0, RubikCube.ACTION_TILT, TILT_BL, false);
+        addButton(R.raw.cbr, 6, 0, RubikCube.ACTION_TILT, TILT_BR, false);
+
+//        addButton(R.raw.d, 2, 0, Button.ACTION_ROT, RubikCube.ROT_D, true);
+//        addButton(R.raw.l, 1, 1, Button.ACTION_ROT, RubikCube.ROT_L, true);
+//        addButton(R.raw.r, 3, 1, Button.ACTION_ROT, RubikCube.ROT_R, true);
 
 
         // Ignore the passed-in GL10 interface, and use the GLES20
@@ -421,11 +452,32 @@ public class RubikRenderer implements GLSurfaceView.Renderer
                     Log.e(TAG, "clicked on " + x + ", " + y);
                     b.anim_ = 255;
 
-                    if(b.action_ == Button.ACTION_ROT)
+                    if(b.action_ == RubikCube.ACTION_TILT)
                     {
-                        cube_.queue(b.dir_, b.clockwise_);
+                        switch(b.dir_)
+                        {
+                            case TILT_TL:
+                                spinX_ = 30;
+                                spinY_ = 30;
+                                break;
+                            case TILT_TR:
+                                spinX_ = 30;
+                                spinY_ = -30;
+                                break;
+                            case TILT_BL:
+                                spinX_ = -30;
+                                spinY_ = 30;
+                                break;
+                            case TILT_BR:
+                                spinX_ = -30;
+                                spinY_ = -30;
+                                break;
+                        }
                     }
-
+                    else
+                    {
+                        cube_.queue(b.action_, b.dir_, b.clockwise_);
+                    }
                     break;
                 }
             }
@@ -468,92 +520,83 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         GLES20.glEnableVertexAttribArray(texHandle_);
         checkGlError("glEnableVertexAttribArray texHandle");
 
-        for (int rot = 0; rot < 9; ++rot)
-        {
-            rots_[rot] = 0;
-        }
-        if (cube_.angle_ != 0)
-        {
-            rots_[cube_.rot_] = cube_.angle_;
-        }
-
         // Front
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 0, 0, cube_.cubies_[RubikCube.FACE_F][2]);
-        drawCubieFace( rots_[RubikCube.ROT_X],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 1, 0, cube_.cubies_[RubikCube.FACE_F][1]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 2, 0, cube_.cubies_[RubikCube.FACE_F][0]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 0, 0, cube_.cubies_[RubikCube.FACE_F][2]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 1, 0, cube_.cubies_[RubikCube.FACE_F][1]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 2, 0, cube_.cubies_[RubikCube.FACE_F][0]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_Y],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 0, 1, cube_.cubies_[RubikCube.FACE_F][5]);
-        drawCubieFace( rots_[RubikCube.ROT_X],  rots_[RubikCube.ROT_Y],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 1, 1, cube_.cubies_[RubikCube.FACE_F][4]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_Y],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 2, 1, cube_.cubies_[RubikCube.FACE_F][3]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_Y],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 0, 1, cube_.cubies_[RubikCube.FACE_F][5]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X],  cube_.rots_[RubikCube.ROT_Y],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 1, 1, cube_.cubies_[RubikCube.FACE_F][4]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_Y],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 2, 1, cube_.cubies_[RubikCube.FACE_F][3]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 0, 2, cube_.cubies_[RubikCube.FACE_F][8]);
-        drawCubieFace( rots_[RubikCube.ROT_X], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 1, 2, cube_.cubies_[RubikCube.FACE_F][7]);
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_F, 2, 2, cube_.cubies_[RubikCube.FACE_F][6]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 0, 2, cube_.cubies_[RubikCube.FACE_F][8]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 1, 2, cube_.cubies_[RubikCube.FACE_F][7]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_F, 2, 2, cube_.cubies_[RubikCube.FACE_F][6]);
 
         // Back
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 0, 0, cube_.cubies_[RubikCube.FACE_B][6]);
-        drawCubieFace( rots_[RubikCube.ROT_X], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 1, 0, cube_.cubies_[RubikCube.FACE_B][7]);
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 2, 0, cube_.cubies_[RubikCube.FACE_B][8]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 0, 0, cube_.cubies_[RubikCube.FACE_B][6]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 1, 0, cube_.cubies_[RubikCube.FACE_B][7]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 2, 0, cube_.cubies_[RubikCube.FACE_B][8]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_Y], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 0, 1, cube_.cubies_[RubikCube.FACE_B][3]);
-        drawCubieFace( rots_[RubikCube.ROT_X],  rots_[RubikCube.ROT_Y], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 1, 1, cube_.cubies_[RubikCube.FACE_B][4]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_Y], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 2, 1, cube_.cubies_[RubikCube.FACE_B][5]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_Y], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 0, 1, cube_.cubies_[RubikCube.FACE_B][3]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X],  cube_.rots_[RubikCube.ROT_Y], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 1, 1, cube_.cubies_[RubikCube.FACE_B][4]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_Y], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 2, 1, cube_.cubies_[RubikCube.FACE_B][5]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 0, 2, cube_.cubies_[RubikCube.FACE_B][0]);
-        drawCubieFace( rots_[RubikCube.ROT_X],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 1, 2, cube_.cubies_[RubikCube.FACE_B][1]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_B, 2, 2, cube_.cubies_[RubikCube.FACE_B][2]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 0, 2, cube_.cubies_[RubikCube.FACE_B][0]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 1, 2, cube_.cubies_[RubikCube.FACE_B][1]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_B, 2, 2, cube_.cubies_[RubikCube.FACE_B][2]);
 
         // Up
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_U, 0, 0, cube_.cubies_[RubikCube.FACE_U][2]);
-        drawCubieFace( rots_[RubikCube.ROT_X],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_U, 1, 0, cube_.cubies_[RubikCube.FACE_U][1]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_U, 2, 0, cube_.cubies_[RubikCube.FACE_U][0]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_U, 0, 0, cube_.cubies_[RubikCube.FACE_U][2]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_U, 1, 0, cube_.cubies_[RubikCube.FACE_U][1]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_U, 2, 0, cube_.cubies_[RubikCube.FACE_U][0]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_Z], RubikCube.FACE_U, 0, 1, cube_.cubies_[RubikCube.FACE_U][5]);
-        drawCubieFace( rots_[RubikCube.ROT_X],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_Z], RubikCube.FACE_U, 1, 1, cube_.cubies_[RubikCube.FACE_U][4]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_Z], RubikCube.FACE_U, 2, 1, cube_.cubies_[RubikCube.FACE_U][3]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_U, 0, 1, cube_.cubies_[RubikCube.FACE_U][5]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_U, 1, 1, cube_.cubies_[RubikCube.FACE_U][4]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_U, 2, 1, cube_.cubies_[RubikCube.FACE_U][3]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_U, 0, 2, cube_.cubies_[RubikCube.FACE_U][8]);
-        drawCubieFace( rots_[RubikCube.ROT_X],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_U, 1, 2, cube_.cubies_[RubikCube.FACE_U][7]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_U, 2, 2, cube_.cubies_[RubikCube.FACE_U][6]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_U, 0, 2, cube_.cubies_[RubikCube.FACE_U][8]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_U, 1, 2, cube_.cubies_[RubikCube.FACE_U][7]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_U, 2, 2, cube_.cubies_[RubikCube.FACE_U][6]);
 
         // Down
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_D, 0, 0, cube_.cubies_[RubikCube.FACE_D][2]);
-        drawCubieFace( rots_[RubikCube.ROT_X], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_D, 1, 0, cube_.cubies_[RubikCube.FACE_D][1]);
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_D, 2, 0, cube_.cubies_[RubikCube.FACE_D][0]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_D, 0, 0, cube_.cubies_[RubikCube.FACE_D][2]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_D, 1, 0, cube_.cubies_[RubikCube.FACE_D][1]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_D, 2, 0, cube_.cubies_[RubikCube.FACE_D][0]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_Z], RubikCube.FACE_D, 0, 1, cube_.cubies_[RubikCube.FACE_D][5]);
-        drawCubieFace( rots_[RubikCube.ROT_X], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_Z], RubikCube.FACE_D, 1, 1, cube_.cubies_[RubikCube.FACE_D][4]);
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_Z], RubikCube.FACE_D, 2, 1, cube_.cubies_[RubikCube.FACE_D][3]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_D, 0, 1, cube_.cubies_[RubikCube.FACE_D][5]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_D, 1, 1, cube_.cubies_[RubikCube.FACE_D][4]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_D, 2, 1, cube_.cubies_[RubikCube.FACE_D][3]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_D, 0, 2, cube_.cubies_[RubikCube.FACE_D][8]);
-        drawCubieFace( rots_[RubikCube.ROT_X], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_D, 1, 2, cube_.cubies_[RubikCube.FACE_D][7]);
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_D, 2, 2, cube_.cubies_[RubikCube.FACE_D][6]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_D, 0, 2, cube_.cubies_[RubikCube.FACE_D][8]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_X], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_D, 1, 2, cube_.cubies_[RubikCube.FACE_D][7]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_D, 2, 2, cube_.cubies_[RubikCube.FACE_D][6]);
 
         // Left
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_L, 0, 0, cube_.cubies_[RubikCube.FACE_L][2]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_Z], RubikCube.FACE_L, 1, 0, cube_.cubies_[RubikCube.FACE_L][1]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_L, 2, 0, cube_.cubies_[RubikCube.FACE_L][0]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_L, 0, 0, cube_.cubies_[RubikCube.FACE_L][2]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_L, 1, 0, cube_.cubies_[RubikCube.FACE_L][1]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_L, 2, 0, cube_.cubies_[RubikCube.FACE_L][0]);
 
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_Y],  rots_[RubikCube.ROT_F], RubikCube.FACE_L, 0, 1, cube_.cubies_[RubikCube.FACE_L][5]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_Y],  rots_[RubikCube.ROT_Z], RubikCube.FACE_L, 1, 1, cube_.cubies_[RubikCube.FACE_L][4]);
-        drawCubieFace(-rots_[RubikCube.ROT_L],  rots_[RubikCube.ROT_Y], -rots_[RubikCube.ROT_B], RubikCube.FACE_L, 2, 1, cube_.cubies_[RubikCube.FACE_L][3]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_Y],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_L, 0, 1, cube_.cubies_[RubikCube.FACE_L][5]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_Y],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_L, 1, 1, cube_.cubies_[RubikCube.FACE_L][4]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L],  cube_.rots_[RubikCube.ROT_Y], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_L, 2, 1, cube_.cubies_[RubikCube.FACE_L][3]);
 
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_L, 0, 2, cube_.cubies_[RubikCube.FACE_L][8]);
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_Z], RubikCube.FACE_L, 1, 2, cube_.cubies_[RubikCube.FACE_L][7]);
-        drawCubieFace(-rots_[RubikCube.ROT_L], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_L, 2, 2, cube_.cubies_[RubikCube.FACE_L][6]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_L, 0, 2, cube_.cubies_[RubikCube.FACE_L][8]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_L, 1, 2, cube_.cubies_[RubikCube.FACE_L][7]);
+        drawCubieFace(-cube_.rots_[RubikCube.ROT_L], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_L, 2, 2, cube_.cubies_[RubikCube.FACE_L][6]);
 
         // Right
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U], -rots_[RubikCube.ROT_B], RubikCube.FACE_R, 0, 0, cube_.cubies_[RubikCube.FACE_R][2]);
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_Z], RubikCube.FACE_R, 1, 0, cube_.cubies_[RubikCube.FACE_R][1]);
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_U],  rots_[RubikCube.ROT_F], RubikCube.FACE_R, 2, 0, cube_.cubies_[RubikCube.FACE_R][0]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_R, 0, 0, cube_.cubies_[RubikCube.FACE_R][2]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_R, 1, 0, cube_.cubies_[RubikCube.FACE_R][1]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_U],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_R, 2, 0, cube_.cubies_[RubikCube.FACE_R][0]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_Y], -rots_[RubikCube.ROT_B], RubikCube.FACE_R, 0, 1, cube_.cubies_[RubikCube.FACE_R][5]);
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_Y],  rots_[RubikCube.ROT_Z], RubikCube.FACE_R, 1, 1, cube_.cubies_[RubikCube.FACE_R][4]);
-        drawCubieFace( rots_[RubikCube.ROT_R],  rots_[RubikCube.ROT_Y],  rots_[RubikCube.ROT_F], RubikCube.FACE_R, 2, 1, cube_.cubies_[RubikCube.FACE_R][3]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_Y], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_R, 0, 1, cube_.cubies_[RubikCube.FACE_R][5]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_Y],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_R, 1, 1, cube_.cubies_[RubikCube.FACE_R][4]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R],  cube_.rots_[RubikCube.ROT_Y],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_R, 2, 1, cube_.cubies_[RubikCube.FACE_R][3]);
 
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D], -rots_[RubikCube.ROT_B], RubikCube.FACE_R, 0, 2, cube_.cubies_[RubikCube.FACE_R][8]);
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_Z], RubikCube.FACE_R, 1, 2, cube_.cubies_[RubikCube.FACE_R][7]);
-        drawCubieFace( rots_[RubikCube.ROT_R], -rots_[RubikCube.ROT_D],  rots_[RubikCube.ROT_F], RubikCube.FACE_R, 2, 2, cube_.cubies_[RubikCube.FACE_R][6]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D], -cube_.rots_[RubikCube.ROT_B], RubikCube.FACE_R, 0, 2, cube_.cubies_[RubikCube.FACE_R][8]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_Z], RubikCube.FACE_R, 1, 2, cube_.cubies_[RubikCube.FACE_R][7]);
+        drawCubieFace( cube_.rots_[RubikCube.ROT_R], -cube_.rots_[RubikCube.ROT_D],  cube_.rots_[RubikCube.ROT_F], RubikCube.FACE_R, 2, 2, cube_.cubies_[RubikCube.FACE_R][6]);
 
         // Setup ortho for the UI
         GLES20.glViewport(0, 0, width_, height_);

@@ -9,6 +9,10 @@ public class RubikCube
 {
     public static final int ROTATE_SPEED = 5;
 
+    public static final int ACTION_ROT = 1;
+    public static final int ACTION_LOOK = 2;
+    public static final int ACTION_TILT = 3;
+
     public static final int FACE_U = 0;
     public static final int FACE_D = 1;
     public static final int FACE_L = 2;
@@ -26,11 +30,19 @@ public class RubikCube
     public static final int ROT_Y = 7;
     public static final int ROT_Z = 8;
 
+    public int rots_[] = new int[9];
     public int cubies_[][] = new int[6][9];
     public int angle_;
     public int rot_;
 
-    private List<Integer> actions_ = new ArrayList<Integer>();
+    class Action
+    {
+        public int action;
+        public int rot;
+        public boolean clockwise;
+    };
+
+    private List<Action> actions_ = new ArrayList<Action>();
     private int stripe_[] = new int[3];
 
     private int SPIN_INDICES[][] =
@@ -66,41 +78,70 @@ public class RubikCube
         rot_ = 0;
     }
 
-    void queue(int rot, boolean clockwise)
+    void queue(int action, int rot, boolean clockwise)
     {
-        int rawAction = rot * 2;
-        if (clockwise)
-        {
-            rawAction += 1;
-        }
-        actions_.add(rawAction);
+        Action a = new Action();
+        a.action = action;
+        a.rot = rot;
+        a.clockwise = clockwise;
+        actions_.add(a);
     }
 
     void update()
     {
-        if (angle_ < 0)
+        boolean animating = false;
+        for (int rot = 0; rot < 9; ++rot)
         {
-            angle_ += ROTATE_SPEED;
-            if (angle_ > 0)
-                angle_ = 0;
-        } else if (angle_ > 0)
-        {
-            angle_ -= ROTATE_SPEED;
-            if (angle_ < 0)
-                angle_ = 0;
+            if (rots_[rot] < 0)
+            {
+                rots_[rot] += ROTATE_SPEED;
+                if (rots_[rot] > 0)
+                    rots_[rot] = 0;
+            } else if (rots_[rot] > 0)
+            {
+                rots_[rot] -= ROTATE_SPEED;
+                if (rots_[rot] < 0)
+                    rots_[rot] = 0;
+            }
+
+            if(rots_[rot] != 0)
+            {
+                animating = true;
+            }
         }
 
-        if (angle_ == 0)
+        if (!animating)
         {
             if (!actions_.isEmpty())
             {
-                int rawAction = actions_.get(0);
+                Action a = actions_.get(0);
                 actions_.remove(0);
 
-                int rot = rawAction / 2;
-                boolean clockwise = (rawAction % 2) > 0;
-
-                move(rot, clockwise);
+                if(a.action == ACTION_ROT)
+                {
+                    move(a.rot, a.clockwise);
+                }
+                else if(a.action == ACTION_LOOK)
+                {
+                    switch(a.rot)
+                    {
+                        case ROT_X:
+                            move(ROT_L, !a.clockwise);
+                            move(ROT_X, a.clockwise);
+                            move(ROT_R, a.clockwise);
+                            break;
+                        case ROT_Y:
+                            move(ROT_U, a.clockwise);
+                            move(ROT_Y, a.clockwise);
+                            move(ROT_D, !a.clockwise);
+                            break;
+                        case ROT_Z:
+                            move(ROT_B, a.clockwise);
+                            move(ROT_Z, !a.clockwise);
+                            move(ROT_F, !a.clockwise);
+                            break;
+                    };
+                }
             }
         }
     }
@@ -165,11 +206,10 @@ public class RubikCube
             spin(SPIN_INDICES[rot]);
         }
 
-        rot_ = rot;
-        angle_ = -90;
+        rots_[rot] = -90;
         if (clockwise)
         {
-            angle_ *= -1;
+            rots_[rot] *= -1;
         }
     }
 }
