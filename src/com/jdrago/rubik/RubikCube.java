@@ -8,6 +8,9 @@ import java.util.List;
 public class RubikCube
 {
     public static final int ROTATE_SPEED = 5;
+    public static final int FAST_ROTATE_SPEED = 30;
+
+    public int rotateSpeed_ = ROTATE_SPEED;
 
     public static final int ACTION_ROT = 1;
     public static final int ACTION_LOOK = 2;
@@ -31,8 +34,7 @@ public class RubikCube
     public static final int ROT_Z = 8;
 
     public int rots_[] = new int[9];
-    public int cubies_[][] = new int[6][9];
-    public int angle_;
+    public int cubies_[][] = null;
     public int rot_;
 
     class Action
@@ -66,6 +68,9 @@ public class RubikCube
 
     void unshuffle()
     {
+        Log.e("RUBIK", "unshuffle()");
+
+        cubies_ = new int[6][9];
         for (int face = 0; face < 6; ++face)
         {
             for (int cubie = 0; cubie < 9; ++cubie)
@@ -73,9 +78,20 @@ public class RubikCube
                 cubies_[face][cubie] = face;
             }
         }
+    }
 
-        angle_ = 0;
-        rot_ = 0;
+    void shuffle()
+    {
+        unshuffle();
+
+        for(int i = 0; i < 40; ++i)
+        {
+            int randomRot = (int)(Math.random() * 9);
+            boolean randomCW = ((int)(Math.random() * 2) > 1);
+            queue(ACTION_ROT, randomRot, randomCW);
+        }
+
+        rotateSpeed_ = FAST_ROTATE_SPEED;
     }
 
     void queue(int action, int rot, boolean clockwise)
@@ -94,12 +110,12 @@ public class RubikCube
         {
             if (rots_[rot] < 0)
             {
-                rots_[rot] += ROTATE_SPEED;
+                rots_[rot] += rotateSpeed_;
                 if (rots_[rot] > 0)
                     rots_[rot] = 0;
             } else if (rots_[rot] > 0)
             {
-                rots_[rot] -= ROTATE_SPEED;
+                rots_[rot] -= rotateSpeed_;
                 if (rots_[rot] < 0)
                     rots_[rot] = 0;
             }
@@ -112,7 +128,11 @@ public class RubikCube
 
         if (!animating)
         {
-            if (!actions_.isEmpty())
+            if (actions_.isEmpty())
+            {
+                rotateSpeed_ = ROTATE_SPEED;
+            }
+            else
             {
                 Action a = actions_.get(0);
                 actions_.remove(0);

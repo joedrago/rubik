@@ -40,8 +40,14 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     private int spinX_;
     private int spinY_;
     private int spinZ_;
+    private int spinReqX_;
+    private int spinReqY_;
+    private int spinReqZ_;
+    private static final int SPIN_SPEED = 4;
 
     private int cubieID_;
+
+    private static final int VIEW_TILT_ANGLE = 35;
 
     private float[] viewProjMatrix_ = new float[16];
     private float[] projMatrix_ = new float[16];
@@ -249,9 +255,9 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         quadIndices_ = ByteBuffer.allocateDirect(quadIndicesData_.length * INT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asIntBuffer();
         quadIndices_.put(quadIndicesData_).position(0);
 
-        spinX_ = 30;
-        spinY_ = -30;
-        spinZ_ = 0;
+        spinReqX_ = spinX_ = VIEW_TILT_ANGLE;
+        spinReqY_ = spinY_ = -VIEW_TILT_ANGLE;
+        spinReqZ_ = spinZ_ = 0;
     }
 
     public void addButton(int resourceID, int x, int y, int action, int dir, boolean clockwise)
@@ -319,35 +325,36 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 
         buttons_.clear();
 
-        addButton(R.raw.rd, 1, 3, RubikCube.ACTION_ROT, RubikCube.ROT_F, false);
-        addButton(R.raw.u,  2, 3, RubikCube.ACTION_ROT, RubikCube.ROT_L, false);
-        addButton(R.raw.u,  3, 3, RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
-        addButton(R.raw.u,  4, 3, RubikCube.ACTION_ROT, RubikCube.ROT_R, true);
-        addButton(R.raw.ld, 5, 3, RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+        addButton(R.raw.rd, 1, 4, RubikCube.ACTION_ROT, RubikCube.ROT_F, false);
+        addButton(R.raw.ld, 5, 4, RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+
+        addButton(R.raw.u,  2, 4, RubikCube.ACTION_ROT, RubikCube.ROT_L, false);
+        addButton(R.raw.u,  3, 4, RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
+        addButton(R.raw.u,  4, 4, RubikCube.ACTION_ROT, RubikCube.ROT_R, true);
 
         addButton(R.raw.d, 2, 0, RubikCube.ACTION_ROT, RubikCube.ROT_L, true);
         addButton(R.raw.d, 3, 0, RubikCube.ACTION_ROT, RubikCube.ROT_X, false);
         addButton(R.raw.d, 4, 0, RubikCube.ACTION_ROT, RubikCube.ROT_R, false);
 
-        addButton(R.raw.l, 1, 2, RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
-        addButton(R.raw.l, 1, 1, RubikCube.ACTION_ROT, RubikCube.ROT_Y, true);
-        addButton(R.raw.l, 1, 0, RubikCube.ACTION_ROT, RubikCube.ROT_D, false);
+        addButton(R.raw.l, 1, 3, RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+        addButton(R.raw.l, 1, 2, RubikCube.ACTION_ROT, RubikCube.ROT_Y, true);
+        addButton(R.raw.l, 1, 1, RubikCube.ACTION_ROT, RubikCube.ROT_D, false);
 
-        addButton(R.raw.r, 5, 2, RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
-        addButton(R.raw.r, 5, 1, RubikCube.ACTION_ROT, RubikCube.ROT_Y, false);
-        addButton(R.raw.r, 5, 0, RubikCube.ACTION_ROT, RubikCube.ROT_D, true);
+        addButton(R.raw.r, 5, 3, RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
+        addButton(R.raw.r, 5, 2, RubikCube.ACTION_ROT, RubikCube.ROT_Y, false);
+        addButton(R.raw.r, 5, 1, RubikCube.ACTION_ROT, RubikCube.ROT_D, true);
 
-        addButton(R.raw.u,  3, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_X, true);
-        addButton(R.raw.d,  3, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_X, false);
-        addButton(R.raw.l,  2, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, true);
-        addButton(R.raw.r,  4, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, false);
-        addButton(R.raw.rd, 2, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, true);
-        addButton(R.raw.ld, 4, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, false);
+        addButton(R.raw.grayu,  3, 3, RubikCube.ACTION_LOOK, RubikCube.ROT_X, true);
+        addButton(R.raw.grayd,  3, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_X, false);
+        addButton(R.raw.grayl,  2, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, true);
+        addButton(R.raw.grayr,  4, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, false);
+        addButton(R.raw.grayrd, 2, 3, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, true);
+        addButton(R.raw.grayld, 4, 3, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, false);
 
-        addButton(R.raw.ctl, 0, 3, RubikCube.ACTION_TILT, TILT_TL, false);
-        addButton(R.raw.ctr, 6, 3, RubikCube.ACTION_TILT, TILT_TR, false);
-        addButton(R.raw.cbl, 0, 0, RubikCube.ACTION_TILT, TILT_BL, false);
-        addButton(R.raw.cbr, 6, 0, RubikCube.ACTION_TILT, TILT_BR, false);
+        addButton(R.raw.grayctl, 0, 3, RubikCube.ACTION_TILT, TILT_TL, false);
+        addButton(R.raw.grayctr, 6, 3, RubikCube.ACTION_TILT, TILT_TR, false);
+        addButton(R.raw.graycbl, 0, 1, RubikCube.ACTION_TILT, TILT_BL, false);
+        addButton(R.raw.graycbr, 6, 1, RubikCube.ACTION_TILT, TILT_BR, false);
 
 //        addButton(R.raw.d, 2, 0, Button.ACTION_ROT, RubikCube.ROT_D, true);
 //        addButton(R.raw.l, 1, 1, Button.ACTION_ROT, RubikCube.ROT_L, true);
@@ -449,7 +456,6 @@ public class RubikRenderer implements GLSurfaceView.Renderer
             {
                 if(b.anim_ == 0)
                 {
-                    Log.e(TAG, "clicked on " + x + ", " + y);
                     b.anim_ = 255;
 
                     if(b.action_ == RubikCube.ACTION_TILT)
@@ -457,20 +463,20 @@ public class RubikRenderer implements GLSurfaceView.Renderer
                         switch(b.dir_)
                         {
                             case TILT_TL:
-                                spinX_ = 30;
-                                spinY_ = 30;
+                                spinReqX_ = VIEW_TILT_ANGLE;
+                                spinReqY_ = VIEW_TILT_ANGLE;
                                 break;
                             case TILT_TR:
-                                spinX_ = 30;
-                                spinY_ = -30;
+                                spinReqX_ = VIEW_TILT_ANGLE;
+                                spinReqY_ = -VIEW_TILT_ANGLE;
                                 break;
                             case TILT_BL:
-                                spinX_ = -30;
-                                spinY_ = 30;
+                                spinReqX_ = -VIEW_TILT_ANGLE;
+                                spinReqY_ = VIEW_TILT_ANGLE;
                                 break;
                             case TILT_BR:
-                                spinX_ = -30;
-                                spinY_ = -30;
+                                spinReqX_ = -VIEW_TILT_ANGLE;
+                                spinReqY_ = -VIEW_TILT_ANGLE;
                                 break;
                         }
                     }
@@ -484,9 +490,32 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         }
     }
 
+    int lerp(int curr, int req, int speed)
+    {
+        if(curr == req)
+        {
+            return curr;
+        }
+
+        int dir = ((req - curr) > 0) ? 1 : -1;
+        for (int i = 0; i < speed; ++i)
+        {
+            curr += dir;
+            if(curr == req)
+            {
+                return curr;
+            }
+        }
+        return curr;
+    }
+
     public void onDrawFrame(GL10 glUnused)
     {
         cube_.update();
+
+        spinX_ = lerp(spinX_, spinReqX_, SPIN_SPEED);
+        spinY_ = lerp(spinY_, spinReqY_, SPIN_SPEED);
+        spinZ_ = lerp(spinZ_, spinReqZ_, SPIN_SPEED);
 
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);

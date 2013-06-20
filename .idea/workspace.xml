@@ -1,23 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidDesignerProfile">
+    <option name="fullProfile">
+      <profile>
+        <option name="device" value="2.7in QVGA" />
+        <option name="deviceConfiguration" value="Portrait" />
+        <option name="targetHashString" value="android-17" />
+        <option name="theme" value="AppBaseTheme" />
+      </profile>
+    </option>
+    <option name="selection" value="[Full]" />
+  </component>
+  <component name="AndroidLayoutPreviewToolWindow">
+    <option name="state">
+      <GlobalState>
+        <option name="device" value="2.7in QVGA" />
+        <option name="dockMode" value="" />
+        <option name="nightMode" value="notnight" />
+        <option name="targetHashString" value="android-17" />
+        <option name="theme" value="AppBaseTheme" />
+      </GlobalState>
+    </option>
+  </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="clicked on" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="RUBIK" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f959274-d436-433e-9400-955ec00b653d" name="Default" comment="proper colors">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/d.png" afterPath="$PROJECT_DIR$/res/raw/d.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/dl.png" afterPath="$PROJECT_DIR$/res/raw/dl.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/dr.png" afterPath="$PROJECT_DIR$/res/raw/dr.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/l.png" afterPath="$PROJECT_DIR$/res/raw/l.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/ld.png" afterPath="$PROJECT_DIR$/res/raw/ld.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/lu.png" afterPath="$PROJECT_DIR$/res/raw/lu.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/r.png" afterPath="$PROJECT_DIR$/res/raw/r.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/rd.png" afterPath="$PROJECT_DIR$/res/raw/rd.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/ru.png" afterPath="$PROJECT_DIR$/res/raw/ru.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/u.png" afterPath="$PROJECT_DIR$/res/raw/u.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/ul.png" afterPath="$PROJECT_DIR$/res/raw/ul.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/ur.png" afterPath="$PROJECT_DIR$/res/raw/ur.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikActivity.java" afterPath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java" afterPath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikRenderer.java" afterPath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikRenderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikView.java" afterPath="$PROJECT_DIR$/src/com/jdrago/rubik/RubikView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_rubik.xml" afterPath="$PROJECT_DIR$/res/layout/activity_rubik.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/rubik.xml" afterPath="$PROJECT_DIR$/res/menu/rubik.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
     </list>
     <ignored path="rubik.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/res/values/strings.xml" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371618957404" ignored="false" />
     <file path="$PROJECT_DIR$/res/layout/main.xml" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371618957404" ignored="false" />
-    <file path="/fragment.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371619002399" ignored="false" />
-    <file path="/RubikCube.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371692124903" ignored="false" />
-    <file path="/RubikRenderer.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371692333394" ignored="false" />
-    <file path="/RubikView.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371666593607" ignored="false" />
-    <file path="/Dummy.txt" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371666783157" ignored="false" />
-    <file path="/RubikActivity.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371659927360" ignored="false" />
+    <file path="/fragment.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371698835446" ignored="false" />
+    <file path="/RubikCube.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371703716266" ignored="false" />
+    <file path="/RubikRenderer.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371702679781" ignored="false" />
+    <file path="/RubikView.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371700572121" ignored="false" />
+    <file path="/Dummy.txt" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371696815633" ignored="false" />
+    <file path="/RubikActivity.java" changelist="3f959274-d436-433e-9400-955ec00b653d" time="1371703230462" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,26 +116,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RubikRenderer.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikRenderer.java">
+      <file leaf-file-name="RubikActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="348" column="55" selection-start="12522" selection-end="12522" vertical-scroll-proportion="0.6068966">
+            <state line="81" column="24" selection-start="2092" selection-end="2092" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RubikCube.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="0" selection-start="649" selection-end="649" vertical-scroll-proportion="0.46206117">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2351#2359#0" expanded="true" />
+                <element signature="e#1261#1269#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RubikCube.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java">
+      <file leaf-file-name="Math.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../android/sources/android-17/java/lang/Math.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="44" selection-start="310" selection-end="310" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1196#1204#0" expanded="true" />
-              </folding>
+            <state line="873" column="38" selection-start="30109" selection-end="30109" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -120,11 +164,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/jdrago/rubik/RubikActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/jdrago/rubik/RubikView.java" />
-        <option value="$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java" />
         <option value="$PROJECT_DIR$/src/com/jdrago/rubik/RubikRenderer.java" />
+        <option value="$PROJECT_DIR$/res/layout/activity_rubik.xml" />
+        <option value="$PROJECT_DIR$/src/com/jdrago/rubik/RubikActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java" />
       </list>
     </option>
   </component>
@@ -198,38 +243,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubik" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubik" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubik" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubik" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="raw" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -242,6 +255,7 @@
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="editor.preferences.smartKeys" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -437,25 +451,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1066" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.6710671" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893288" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39933994" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" x="1690" y="408" width="1634" height="299" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.32893288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" x="1691" y="406" width="1634" height="562" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.249694" sideWeight="0.6710671" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.32893288" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1685" y="5" width="811" height="400" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.32893288" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1685" y="5" width="811" height="400" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -534,34 +549,7 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2351#2359#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="9" selection-start="2856" selection-end="2856" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1196#1204#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="32" selection-start="350" selection-end="350" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2351#2359#0" expanded="true" />
+            <element signature="e#2529#2537#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -578,7 +566,7 @@
         <state line="45" column="47" selection-start="1168" selection-end="1168" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1196#1204#0" expanded="true" />
+            <element signature="e#1261#1269#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -611,50 +599,74 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_rubik.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="577" selection-end="577" vertical-scroll-proportion="0.2982456">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../slide/src/com/jdrago/slide/SlideActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="5" selection-start="523" selection-end="523" vertical-scroll-proportion="0.0">
+        <state line="23" column="0" selection-start="525" selection-end="948" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../slide/src/com/jdrago/slide/SlideView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="461" selection-end="606" vertical-scroll-proportion="0.0">
+        <state line="31" column="29" selection-start="706" selection-end="718" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../slide/src/com/jdrago/slide/SlideGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="354" column="78" selection-start="12739" selection-end="12739" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2529#2537#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="387" selection-end="387" vertical-scroll-proportion="0.0">
+        <state line="81" column="24" selection-start="2092" selection-end="2092" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikView.java">
+    <entry file="file://$PROJECT_DIR$/../android/sources/android-17/java/lang/Math.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="45" selection-start="1820" selection-end="1820" vertical-scroll-proportion="0.86523217">
+        <state line="873" column="38" selection-start="30109" selection-end="30109" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="44" selection-start="310" selection-end="310" vertical-scroll-proportion="0.0">
+        <state line="24" column="0" selection-start="649" selection-end="649" vertical-scroll-proportion="0.46206117">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1196#1204#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jdrago/rubik/RubikRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="348" column="55" selection-start="12522" selection-end="12522" vertical-scroll-proportion="0.6068966">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2351#2359#0" expanded="true" />
+            <element signature="e#1261#1269#0" expanded="true" />
           </folding>
         </state>
       </provider>
