@@ -90,7 +90,7 @@ public class RubikRenderer implements GLSurfaceView.Renderer
     }
     private List<Button> buttons_ = new ArrayList<Button>();
     private float buttonDim_;
-    private static final int BUTTON_GRID_SIZE = 7;
+    private static final int BUTTON_GRID_SIZE = 9;
     private static final int BUTTON_ANIM_SPEED = 20;
 
     private final float[][] faceColors_ =
@@ -325,36 +325,40 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 
         buttons_.clear();
 
-        addButton(R.raw.rd, 1, 4, RubikCube.ACTION_ROT, RubikCube.ROT_F, false);
-        addButton(R.raw.ld, 5, 4, RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+        addButton(R.raw.rd, 4, 6, RubikCube.ACTION_ROT, RubikCube.ROT_F, false);
+        addButton(R.raw.ld, 8, 6, RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
 
-        addButton(R.raw.u,  2, 4, RubikCube.ACTION_ROT, RubikCube.ROT_L, false);
-        addButton(R.raw.u,  3, 4, RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
-        addButton(R.raw.u,  4, 4, RubikCube.ACTION_ROT, RubikCube.ROT_R, true);
+        addButton(R.raw.u,  5, 5, RubikCube.ACTION_ROT, RubikCube.ROT_L, false);
+        addButton(R.raw.u,  6, 5, RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
+        addButton(R.raw.u,  7, 5, RubikCube.ACTION_ROT, RubikCube.ROT_R, true);
 
-        addButton(R.raw.d, 2, 0, RubikCube.ACTION_ROT, RubikCube.ROT_L, true);
-        addButton(R.raw.d, 3, 0, RubikCube.ACTION_ROT, RubikCube.ROT_X, false);
-        addButton(R.raw.d, 4, 0, RubikCube.ACTION_ROT, RubikCube.ROT_R, false);
+        addButton(R.raw.d, 5, 1, RubikCube.ACTION_ROT, RubikCube.ROT_L, true);
+        addButton(R.raw.d, 6, 1, RubikCube.ACTION_ROT, RubikCube.ROT_X, false);
+        addButton(R.raw.d, 7, 1, RubikCube.ACTION_ROT, RubikCube.ROT_R, false);
 
-        addButton(R.raw.l, 1, 3, RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
-        addButton(R.raw.l, 1, 2, RubikCube.ACTION_ROT, RubikCube.ROT_Y, true);
-        addButton(R.raw.l, 1, 1, RubikCube.ACTION_ROT, RubikCube.ROT_D, false);
+        addButton(R.raw.l, 4, 4, RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+        addButton(R.raw.l, 4, 3, RubikCube.ACTION_ROT, RubikCube.ROT_Y, true);
+        addButton(R.raw.l, 4, 2, RubikCube.ACTION_ROT, RubikCube.ROT_D, false);
 
-        addButton(R.raw.r, 5, 3, RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
-        addButton(R.raw.r, 5, 2, RubikCube.ACTION_ROT, RubikCube.ROT_Y, false);
-        addButton(R.raw.r, 5, 1, RubikCube.ACTION_ROT, RubikCube.ROT_D, true);
+        addButton(R.raw.r, 8, 4, RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
+        addButton(R.raw.r, 8, 3, RubikCube.ACTION_ROT, RubikCube.ROT_Y, false);
+        addButton(R.raw.r, 8, 2, RubikCube.ACTION_ROT, RubikCube.ROT_D, true);
 
-        addButton(R.raw.grayu,  3, 3, RubikCube.ACTION_LOOK, RubikCube.ROT_X, true);
-        addButton(R.raw.grayd,  3, 1, RubikCube.ACTION_LOOK, RubikCube.ROT_X, false);
-        addButton(R.raw.grayl,  2, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, true);
-        addButton(R.raw.grayr,  4, 2, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, false);
-        addButton(R.raw.grayrd, 2, 3, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, true);
-        addButton(R.raw.grayld, 4, 3, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, false);
+        addButton(R.raw.grayu,  1, 5, RubikCube.ACTION_LOOK, RubikCube.ROT_X, true);
+        addButton(R.raw.grayd,  1, 3, RubikCube.ACTION_LOOK, RubikCube.ROT_X, false);
+        addButton(R.raw.grayl,  0, 4, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, true);
+        addButton(R.raw.grayr,  2, 4, RubikCube.ACTION_LOOK, RubikCube.ROT_Y, false);
+        addButton(R.raw.grayrd, 0, 6, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, true);
+        addButton(R.raw.grayld, 2, 6, RubikCube.ACTION_LOOK, RubikCube.ROT_Z, false);
 
-        addButton(R.raw.grayctl, 0, 3, RubikCube.ACTION_TILT, TILT_TL, false);
-        addButton(R.raw.grayctr, 6, 3, RubikCube.ACTION_TILT, TILT_TR, false);
-        addButton(R.raw.graycbl, 0, 1, RubikCube.ACTION_TILT, TILT_BL, false);
-        addButton(R.raw.graycbr, 6, 1, RubikCube.ACTION_TILT, TILT_BR, false);
+        addButton(R.raw.grayctl, 0, 1, RubikCube.ACTION_TILT, TILT_TL, false);
+        addButton(R.raw.grayctr, 1, 1, RubikCube.ACTION_TILT, TILT_TR, false);
+        addButton(R.raw.graycbl, 0, 0, RubikCube.ACTION_TILT, TILT_BL, false);
+        addButton(R.raw.graycbr, 1, 0, RubikCube.ACTION_TILT, TILT_BR, false);
+
+        addButton(R.raw.move0,  8,12, RubikCube.ACTION_MOVE, RubikCube.MOVE_SWAP_FB_CORNERS, false);
+        addButton(R.raw.move1,  8,10, RubikCube.ACTION_MOVE, RubikCube.MOVE_SPIN_3_CORNERS, false);
+        addButton(R.raw.move2,  8, 8, RubikCube.ACTION_MOVE, RubikCube.MOVE_RUBE_MOVE, false);
 
 //        addButton(R.raw.d, 2, 0, Button.ACTION_ROT, RubikCube.ROT_D, true);
 //        addButton(R.raw.l, 1, 1, Button.ACTION_ROT, RubikCube.ROT_L, true);
@@ -458,7 +462,55 @@ public class RubikRenderer implements GLSurfaceView.Renderer
                 {
                     b.anim_ = 255;
 
-                    if(b.action_ == RubikCube.ACTION_TILT)
+                    if(b.action_ == RubikCube.ACTION_MOVE)
+                    {
+                        switch(b.dir_)
+                        {
+                            case RubikCube.MOVE_SWAP_FB_CORNERS:
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_L, false);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_L, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
+
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                break;
+                            case RubikCube.MOVE_SPIN_3_CORNERS:
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, false);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_F, true);
+                                break;
+                            case RubikCube.MOVE_RUBE_MOVE:
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_X, false);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_X, false);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_X, false);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_X, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                cube_.queue(RubikCube.ACTION_ROT, RubikCube.ROT_U, true);
+                                break;
+                        }
+                    }
+                    else if(b.action_ == RubikCube.ACTION_TILT)
                     {
                         switch(b.dir_)
                         {

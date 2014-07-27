@@ -15,6 +15,7 @@ public class RubikCube
     public static final int ACTION_ROT = 1;
     public static final int ACTION_LOOK = 2;
     public static final int ACTION_TILT = 3;
+    public static final int ACTION_MOVE = 4;
 
     public static final int FACE_U = 0;
     public static final int FACE_D = 1;
@@ -32,6 +33,10 @@ public class RubikCube
     public static final int ROT_X = 6;
     public static final int ROT_Y = 7;
     public static final int ROT_Z = 8;
+
+    public static final int MOVE_SWAP_FB_CORNERS = 0;
+    public static final int MOVE_SPIN_3_CORNERS = 1;
+    public static final int MOVE_RUBE_MOVE = 2;
 
     public int rots_[] = new int[9];
     public int cubies_[][] = null;
