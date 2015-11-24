@@ -9,12 +9,12 @@ public class RubikView extends GLSurfaceView
     private RubikRenderer renderer_;
     public RubikCube cube_;
 
-    public RubikView(Context context)
+    public RubikView(Context context, int actionBarHeight)
     {
         super(context);
         setEGLContextClientVersion(2);
         cube_ = new RubikCube();
-        renderer_ = new RubikRenderer(context, cube_);
+        renderer_ = new RubikRenderer(context, cube_, actionBarHeight);
         setRenderer(renderer_);
     }
 

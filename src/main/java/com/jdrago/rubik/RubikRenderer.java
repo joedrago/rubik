@@ -30,6 +30,7 @@ public class RubikRenderer implements GLSurfaceView.Renderer
 
     private int width_;
     private int height_;
+    private int actionBarHeight_;
 
     private int shaderProgram_;
     private int viewProjMatrixHandle_;
@@ -244,10 +245,11 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         return id;
     }
 
-    public RubikRenderer(Context context, RubikCube cube)
+    public RubikRenderer(Context context, RubikCube cube, int actionBarHeight)
     {
         context_ = context;
         cube_ = cube;
+        actionBarHeight_ = actionBarHeight;
         cubieVerts_ = ByteBuffer.allocateDirect(cubieVertData_.length * FLOAT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
         cubieVerts_.put(cubieVertData_).position(0);
         buttonVerts_ = ByteBuffer.allocateDirect(buttonVertData_.length * FLOAT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -582,7 +584,7 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
         // Setup a perspective for the top square of portrait layout
-        GLES20.glViewport(0, height_ - width_, width_, width_);
+        GLES20.glViewport(0, height_ - width_ + actionBarHeight_, width_, width_);
         Matrix.frustumM(projMatrix_, 0, -1, 1, 1, -1, 1, 20);
         Matrix.setLookAtM(viewMatrix_, 0,
                 0, 0, 1,         // eye

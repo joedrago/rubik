@@ -5,10 +5,12 @@
             android:id="@+id/shuffle"
             android:title="@string/shuffle"
             android:icon="@android:drawable/ic_menu_rotate"
+            showAsAction="ifRoom"
     />
     <item
             android:id="@+id/unshuffle"
             android:title="@string/unshuffle"
             android:icon="@android:drawable/ic_menu_rotate"
+            showAsAction="ifRoom"
     />
 </menu>

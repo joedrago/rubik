@@ -3,6 +3,7 @@ package com.jdrago.rubik;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,9 +18,16 @@ public class RubikActivity extends Activity
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_rubik);
 
-        getActionBar().hide();
+        //getActionBar().hide();
 
-        view_ = new RubikView(getApplication());
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = 0;
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+        Log.e("RUBIK", "actionBarHeight: "+actionBarHeight);
+
+        view_ = new RubikView(getApplication(), actionBarHeight);
         setContentView(view_);
 
         Log.e("RUBIK", "restore() start");
