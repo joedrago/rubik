@@ -1,4 +1,4 @@
 local.properties
 .DS_Store
-gen
-bin
+.gradle
+build

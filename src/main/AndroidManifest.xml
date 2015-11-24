@@ -3,9 +3,9 @@
           package="com.jdrago.rubik"
           android:versionCode="1"
           android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="17"/>
+    <uses-sdk android:minSdkVersion="21"/>
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
-        <activity android:name="RubikActivity"
+        <activity android:name=".RubikActivity"
                   android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"
                   android:label="@string/app_name">
             <intent-filter>
