@@ -358,9 +358,9 @@ public class RubikRenderer implements GLSurfaceView.Renderer
         addButton(R.raw.graycbl, 0, 0, RubikCube.ACTION_TILT, TILT_BL, false);
         addButton(R.raw.graycbr, 1, 0, RubikCube.ACTION_TILT, TILT_BR, false);
 
-        addButton(R.raw.move0,  8,12, RubikCube.ACTION_MOVE, RubikCube.MOVE_SWAP_FB_CORNERS, false);
+        addButton(R.raw.move0,  8, 8, RubikCube.ACTION_MOVE, RubikCube.MOVE_SWAP_FB_CORNERS, false);
         addButton(R.raw.move1,  8,10, RubikCube.ACTION_MOVE, RubikCube.MOVE_SPIN_3_CORNERS, false);
-        addButton(R.raw.move2,  8, 8, RubikCube.ACTION_MOVE, RubikCube.MOVE_RUBE_MOVE, false);
+        addButton(R.raw.move2,  0, 8, RubikCube.ACTION_MOVE, RubikCube.MOVE_RUBE_MOVE, false);
 
 //        addButton(R.raw.d, 2, 0, Button.ACTION_ROT, RubikCube.ROT_D, true);
 //        addButton(R.raw.l, 1, 1, Button.ACTION_ROT, RubikCube.ROT_L, true);
